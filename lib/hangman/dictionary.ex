@@ -9,7 +9,8 @@ defmodule Hangman.Dictionary do
   @word_list_file_name "assets/words.8800"
 
   @doc """
-  Return a random word from our word list.
+  Return a random word from our word list. Whitespace and newlines
+  will have been removed.
   """
 
   @spec random_word() :: binary
@@ -19,12 +20,16 @@ defmodule Hangman.Dictionary do
     |> String.trim
   end
 
+  @doc """
+  Return a list of all the words in our word list of a given length.
+  Whitespace and newlines will have been removed.
+  """
 
   @spec words_of_length(integer)  :: [ binary ]
   def words_of_length(len) do
     word_list
     |> Stream.map(&String.trim/1)
-    |> Enum.filter(fn word -> String.length(word) == len end)
+    |> Enum.filter(&(String.length(&1) == len))
   end
 
 
