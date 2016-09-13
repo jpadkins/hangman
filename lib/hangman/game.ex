@@ -256,7 +256,10 @@ Here's this module being exercised from an iex session:
   @spec word_as_string(state, boolean) :: binary
   def word_as_string(state, reveal \\ false) do
     if reveal do
-      state.word
+      String.codepoints(state.word)
+      |> Enum.map( fn (ch) -> ch <> " " end)
+      |> Enum.join
+      |> String.trim
     else
       hide = fn (ch, acc) ->
         if Enum.member?(state.guessed, ch) do
@@ -265,8 +268,12 @@ Here's this module being exercised from an iex session:
           acc ++ ["_"]
         end
       end
-      Enum.reduce(String.codepoints(state.word), [], hide)
+
+      String.codepoints(state.word)
+      |> Enum.reduce([], hide)
+      |> Enum.map( fn(ch) -> ch <> " " end )
       |> Enum.join
+      |> String.trim
     end
   end
 
