@@ -12,7 +12,7 @@ defmodule Hangman.HumanPlayer do
   alias Hangman.Game
 
   def play do
-    state = Game.new_game()
+    state = Game.new_game
     get_next_move({state, :first_move, nil})
   end
 
